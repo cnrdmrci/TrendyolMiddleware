@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1356FCEB-2DCB-456C-AD46-74308AFECB73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendyolMiddleware", "src\TrendyolMiddleware.csproj", "{728B1646-8939-45D8-B2D7-07C795F5DF05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2B6CE4AE-1940-437C-AD0A-609BC69890AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{728B1646-8939-45D8-B2D7-07C795F5DF05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{728B1646-8939-45D8-B2D7-07C795F5DF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{728B1646-8939-45D8-B2D7-07C795F5DF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{728B1646-8939-45D8-B2D7-07C795F5DF05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{728B1646-8939-45D8-B2D7-07C795F5DF05} = {1356FCEB-2DCB-456C-AD46-74308AFECB73}
+	EndGlobalSection
+EndGlobal
