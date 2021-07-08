@@ -18,3 +18,5 @@ bld/
 
 # VsCode
 .vscode
+
+**/.ds_store
