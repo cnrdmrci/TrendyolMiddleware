@@ -12,12 +12,14 @@ namespace TrendyolMiddleware.SpecialMiddlewares
         }
         public Task BeforeDelegateHandle(MiddlewareInformation middlewareInformation)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task AfterDelegateHandle(MiddlewareInformation middlewareInformation)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

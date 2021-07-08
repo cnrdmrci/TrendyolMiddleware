@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using TrendyolMiddleware.MiddlewareManagement.Configuration;
@@ -12,15 +13,20 @@ namespace TrendyolMiddleware.Services.Middleware
         private MiddlewareInformation _middlewareInformation;
         private readonly IHttpContextService _httpContextService;
         private readonly IConfigurationManagementService _configurationManagementService;
+        private MemoryStream _responseBody;
+        private Stream _originalResponseBody;
 
         public MiddlewareService(IHttpContextService httpContextService, IConfigurationManagementService configurationManagementService)
         {
             _httpContextService = httpContextService;
             _configurationManagementService = configurationManagementService;
+            _responseBody = new MemoryStream();
         }
         public async Task BeforeDelegateHandler(HttpContext httpContext)
         {
             await InitializeMiddlewareInformationAsync(httpContext);
+            _originalResponseBody = httpContext.Response.Body;
+            httpContext.Response.Body = _responseBody;
             var delegateHandlers = _configurationManagementService.GetMiddlewareDelegateHandlers();
             foreach (var delegateHandler in delegateHandlers)
             {
@@ -37,19 +43,27 @@ namespace TrendyolMiddleware.Services.Middleware
                 HttpMethod = _httpContextService.GetRequestMethod(httpContext),
                 CallDate = DateTime.Now,
                 Headers = GetRequestHeaders(httpContext),
-                Controller = null,
-                Action = null
             };
         }
 
         public async Task AfterDelegateHandler(HttpContext httpContext)
         {
+            
+            await SetResponseMiddlewareInformationAsync(httpContext);
+            await _responseBody.CopyToAsync(_originalResponseBody);
             var delegateHandlers = _configurationManagementService.GetMiddlewareDelegateHandlers();
             foreach (var delegateHandler in delegateHandlers)
             {
                 await delegateHandler.AfterDelegateHandle(_middlewareInformation);
             }
         }
+
+        private async Task SetResponseMiddlewareInformationAsync(HttpContext httpContext)
+        {
+            _middlewareInformation.ResponseBody = await _httpContextService.GetResponseBody(httpContext);
+            _middlewareInformation.ProcessingTime = (DateTime.Now - _middlewareInformation.CallDate).Milliseconds;
+        }
+
         public Task ExceptionHandler(HttpContext httpContext, Exception exception)
         {
             throw new System.NotImplementedException();

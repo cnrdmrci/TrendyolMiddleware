@@ -27,7 +27,6 @@ namespace TrendyolMiddleware.Middleware
                 await middlewareService.ExceptionHandler(httpContext,exception);
                 throw;
             }
-            
         }
     }
 }

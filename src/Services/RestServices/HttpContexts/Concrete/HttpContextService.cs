@@ -17,6 +17,15 @@ namespace TrendyolMiddleware.Services.RestServices.HttpContexts
             return Encoding.UTF8.GetString(buffer);
         }
 
+        public async Task<string> GetResponseBody(HttpContext httpContext)
+        {
+            httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
+            string responseBody = await new StreamReader(httpContext.Response.Body).ReadToEndAsync();
+            httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
+            
+            return responseBody;
+        }
+
         public string GetRequestMethod(HttpContext httpContext)
         {
             return httpContext.Request.Method;
