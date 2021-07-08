@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TrendyolMiddleware.Extensions;
 using TrendyolMiddleware.SpecialMiddlewares;
+using TrendyolMiddleware.SpecialMiddlewares.Logging.LogConfig;
 
 namespace Net5
 {
@@ -35,10 +37,43 @@ namespace Net5
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Net5 v1"));
             }
-            
+                    
             app.UseTrendyolMiddleware(config =>
             {
-                config.AddMiddleware(new LogMiddleware());
+                config.AddMiddleware(new LogMiddleware(new LogConfiguration()
+                {
+                    LogType = LogType.Console,
+                    IsHttpMethodLogActive = false,
+                    IsControllerLogActive = false,
+                    IsRequestUriLogActive = false,
+                    IsActionLogActive = false,
+                    FieldDescriptionListForConstant = new List<FieldDescription>()
+                    {
+                        new FieldDescription()
+                        {
+                            FieldName = "test_field1",
+                            FieldValue = "test_field_value1"
+                        },
+                        new FieldDescription()
+                        {
+                            FieldName = "test_field2",
+                            FieldValue = "test_field_value2"
+                        }
+                    },
+                    FieldDescriptionListForHeaderKey = new List<HeaderFieldDesctiption>()
+                    {
+                        new HeaderFieldDesctiption()
+                        {
+                            FieldName = "test_header_field1",
+                            HeaderKeyForFieldValue = "test_header_field_value1"
+                        },
+                        new HeaderFieldDesctiption()
+                        {
+                            FieldName = "test_header_field2",
+                            HeaderKeyForFieldValue = "test_header_field_value2"
+                        }
+                    }
+                }));
             });
 
             app.UseHttpsRedirection();

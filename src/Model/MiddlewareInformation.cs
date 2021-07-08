@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TrendyolMiddleware.Model
 {
@@ -11,8 +12,10 @@ namespace TrendyolMiddleware.Model
         public string HttpMethod { get; set; }
         public int ProcessingTime { get; set; }
         public DateTime CallDate { get; set; }
-        public string Headers { get; set; }
+        public Dictionary<string,string> Headers { get; set; }
+        public string RequestUri { get; set; }
         public string UserAgent { get; set; }
+        public string ResponseStatusCode { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
     }

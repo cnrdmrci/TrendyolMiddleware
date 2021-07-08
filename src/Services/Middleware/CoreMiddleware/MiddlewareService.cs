@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using TrendyolMiddleware.BaseMiddleware;
@@ -61,18 +62,10 @@ namespace TrendyolMiddleware.Services.Middleware.CoreMiddleware
             _middlewareInformation.ProcessingTime = DateTime.Now.Subtract(_middlewareInformation.CallDate).Milliseconds;
         }
         
-        public string GetRequestHeaders(HttpContext httpContext)
+        private Dictionary<string,string> GetRequestHeaders(HttpContext httpContext)
         {
-            if (httpContext?.Request?.Headers == null)
-            {
-                return string.Empty;
-            }
-            var headers = string.Empty;
-            foreach (var key in httpContext.Request.Headers.Keys)
-            {
-                var value = httpContext.Request.Headers[key].ToString();
-                headers += string.Format("{0}: {1}", key, string.Join(",", value));
-            }
+            var headers = new Dictionary<string, string>();
+            httpContext?.Request?.Headers.Keys.ToList().ForEach(x => headers.Add(x,httpContext.Request.Headers[x].ToString()));
 
             return headers;
         }
