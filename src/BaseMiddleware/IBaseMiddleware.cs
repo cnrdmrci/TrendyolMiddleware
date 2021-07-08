@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using TrendyolMiddleware.Model;
 
-namespace TrendyolMiddleware.MiddlewareManagement.BaseMiddleware
+namespace TrendyolMiddleware.BaseMiddleware
 {
     public interface IBaseMiddleware
     {

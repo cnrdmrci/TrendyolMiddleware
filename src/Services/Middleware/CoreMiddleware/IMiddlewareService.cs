@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace TrendyolMiddleware.Services.Middleware
+namespace TrendyolMiddleware.Services.Middleware.CoreMiddleware
 {
     public interface IMiddlewareService
     {

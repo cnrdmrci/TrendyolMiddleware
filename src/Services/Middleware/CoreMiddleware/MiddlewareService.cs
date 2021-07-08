@@ -1,39 +1,48 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using TrendyolMiddleware.MiddlewareManagement.Configuration;
+using TrendyolMiddleware.BaseMiddleware;
+using TrendyolMiddleware.Configuration;
 using TrendyolMiddleware.Model;
 using TrendyolMiddleware.Services.RestServices.HttpContexts;
 
-namespace TrendyolMiddleware.Services.Middleware
+namespace TrendyolMiddleware.Services.Middleware.CoreMiddleware
 {
     public class MiddlewareService : IMiddlewareService
     {
-        private MiddlewareInformation _middlewareInformation;
         private readonly IHttpContextService _httpContextService;
-        private readonly IConfigurationManagementService _configurationManagementService;
-        private MemoryStream _responseBody;
+        private MiddlewareInformation _middlewareInformation;
+        private readonly List<IBaseMiddleware> _middlewares;
+        private readonly MemoryStream _responseBody;
         private Stream _originalResponseBody;
-
-        public MiddlewareService(IHttpContextService httpContextService, IConfigurationManagementService configurationManagementService)
+        
+        public MiddlewareService(IHttpContextService httpContextService)
         {
             _httpContextService = httpContextService;
-            _configurationManagementService = configurationManagementService;
             _responseBody = new MemoryStream();
+            _middlewares = BaseConfiguration.GetMiddlewares();
         }
         public async Task BeforeDelegateHandler(HttpContext httpContext)
         {
+            SaveResponsePosition(httpContext);
             await InitializeMiddlewareInformationAsync(httpContext);
-            _originalResponseBody = httpContext.Response.Body;
-            httpContext.Response.Body = _responseBody;
-            var delegateHandlers = _configurationManagementService.GetMiddlewareDelegateHandlers();
-            foreach (var delegateHandler in delegateHandlers)
-            {
-                await delegateHandler.BeforeDelegateHandle(_middlewareInformation);
-            }
+            _middlewares.ForEach(async (x) => await x.BeforeDelegateHandle(_middlewareInformation));
         }
 
+        public async Task AfterDelegateHandler(HttpContext httpContext)
+        {
+            await SetResponseMiddlewareInformationAsync(httpContext);
+            await _responseBody.CopyToAsync(_originalResponseBody);
+            _middlewares.ForEach(async (x) => await x.AfterDelegateHandle(_middlewareInformation));
+        }
+        
+        public Task ExceptionHandler(HttpContext httpContext, Exception exception)
+        {
+            throw new System.NotImplementedException();
+        }
+        
         private async Task InitializeMiddlewareInformationAsync(HttpContext httpContext)
         {
             _middlewareInformation = new MiddlewareInformation
@@ -45,28 +54,11 @@ namespace TrendyolMiddleware.Services.Middleware
                 Headers = GetRequestHeaders(httpContext),
             };
         }
-
-        public async Task AfterDelegateHandler(HttpContext httpContext)
-        {
-            
-            await SetResponseMiddlewareInformationAsync(httpContext);
-            await _responseBody.CopyToAsync(_originalResponseBody);
-            var delegateHandlers = _configurationManagementService.GetMiddlewareDelegateHandlers();
-            foreach (var delegateHandler in delegateHandlers)
-            {
-                await delegateHandler.AfterDelegateHandle(_middlewareInformation);
-            }
-        }
-
+        
         private async Task SetResponseMiddlewareInformationAsync(HttpContext httpContext)
         {
             _middlewareInformation.ResponseBody = await _httpContextService.GetResponseBody(httpContext);
-            _middlewareInformation.ProcessingTime = (DateTime.Now - _middlewareInformation.CallDate).Milliseconds;
-        }
-
-        public Task ExceptionHandler(HttpContext httpContext, Exception exception)
-        {
-            throw new System.NotImplementedException();
+            _middlewareInformation.ProcessingTime = DateTime.Now.Subtract(_middlewareInformation.CallDate).Milliseconds;
         }
         
         public string GetRequestHeaders(HttpContext httpContext)
@@ -83,6 +75,12 @@ namespace TrendyolMiddleware.Services.Middleware
             }
 
             return headers;
+        }
+        
+        private void SaveResponsePosition(HttpContext httpContext)
+        {
+            _originalResponseBody = httpContext.Response.Body;
+            httpContext.Response.Body = _responseBody;
         }
     }
 }

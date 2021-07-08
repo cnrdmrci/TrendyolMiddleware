@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using TrendyolMiddleware.MiddlewareManagement.BaseMiddleware;
+using TrendyolMiddleware.BaseMiddleware;
 using TrendyolMiddleware.Model;
 
 namespace TrendyolMiddleware.SpecialMiddlewares

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using TrendyolMiddleware.Services.Middleware;
+using TrendyolMiddleware.Services.Middleware.CoreMiddleware;
 
 namespace TrendyolMiddleware.Middleware
 {
