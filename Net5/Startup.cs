@@ -6,8 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TrendyolMiddleware.Extensions;
-using TrendyolMiddleware.SpecialMiddlewares;
-using TrendyolMiddleware.SpecialMiddlewares.Logging.LogConfig;
+using TrendyolMiddleware.Middlewares;
+using TrendyolMiddleware.Outputs.Logging.Concrete;
+using TrendyolMiddleware.Outputs.Logging.LogConfig;
 
 namespace Net5
 {
@@ -43,10 +44,10 @@ namespace Net5
                 config.AddMiddleware(new LogMiddleware(new LogConfiguration()
                 {
                     LogType = LogType.Console,
-                    IsHttpMethodLogActive = false,
-                    IsControllerLogActive = false,
-                    IsRequestUriLogActive = false,
-                    IsActionLogActive = false,
+                    HttpMethodLogEnabled = false,
+                    ControllerLogEnabled = false,
+                    RequestUriLogEnabled = false,
+                    ActionLogEnabled = false,
                     FieldDescriptionListForConstant = new List<FieldDescription>()
                     {
                         new FieldDescription()

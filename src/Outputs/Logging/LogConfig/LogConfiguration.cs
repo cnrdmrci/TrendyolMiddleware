@@ -1,17 +1,17 @@
 using System.Collections.Generic;
+using TrendyolMiddleware.Outputs.Logging.Concrete;
 
-namespace TrendyolMiddleware.SpecialMiddlewares.Logging.LogConfig
+namespace TrendyolMiddleware.Outputs.Logging.LogConfig
 {
     public class LogConfiguration
     {
-        public bool IsIdLogActive { get; set; } = true;
-        public bool IsRequestBodyLogActive { get; set; } = true;
-        public bool IsResponseBodyLogActive { get; set; } = true;
-        public bool IsHttpMethodLogActive { get; set; } = true;
-        public bool IsControllerLogActive { get; set; } = true;
-        public bool IsRequestUriLogActive { get; set; } = true;
-        public bool IsActionLogActive { get; set; } = true;
-        public bool IsStatusCodeLogActive { get; set; } = true;
+        public bool RequestBodyLogEnabled { get; set; } = true;
+        public bool ResponseBodyLogEnabled { get; set; } = true;
+        public bool HttpMethodLogEnabled { get; set; } = true;
+        public bool ControllerLogEnabled { get; set; } = true;
+        public bool RequestUriLogEnabled { get; set; } = true;
+        public bool ActionLogEnabled { get; set; } = true;
+        public bool StatusCodeLogEnabled { get; set; } = true;
         public LogType LogType { get; set; }
         public List<FieldDescription> FieldDescriptionListForConstant { get; set; }
         public List<HeaderFieldDesctiption> FieldDescriptionListForHeaderKey { get; set; }

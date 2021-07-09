@@ -1,8 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using TrendyolMiddleware.BaseMiddleware;
 using TrendyolMiddleware.Configuration;
-using TrendyolMiddleware.Middleware;
 using TrendyolMiddleware.Registry;
 
 namespace TrendyolMiddleware.Extensions
@@ -16,13 +16,13 @@ namespace TrendyolMiddleware.Extensions
 
         public static void UseTrendyolMiddleware(this IApplicationBuilder applicationBuilder)
         {
-            applicationBuilder.UseMiddleware<GeneralMiddleware>();
+            applicationBuilder.UseMiddleware<CoreMiddleware>();
         }
         
         public static void UseTrendyolMiddleware(this IApplicationBuilder applicationBuilder,Action<MiddlewareConfiguration> middlewareConfigurationAction)
         {
             middlewareConfigurationAction(new MiddlewareConfiguration());
-            applicationBuilder.UseMiddleware<GeneralMiddleware>();
+            applicationBuilder.UseMiddleware<CoreMiddleware>();
         }
     }
 }

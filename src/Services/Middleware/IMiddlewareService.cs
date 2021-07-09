@@ -2,12 +2,12 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace TrendyolMiddleware.Services.Middleware.CoreMiddleware
+namespace TrendyolMiddleware.Services.Middleware
 {
     public interface IMiddlewareService
     {
-        Task BeforeDelegateHandler(HttpContext httpContext);
-        Task AfterDelegateHandler(HttpContext httpContext);
+        Task RequestHandler(HttpContext httpContext);
+        Task ResponseHandler(HttpContext httpContext);
         Task ExceptionHandler(HttpContext httpContext, Exception exception);
     }
 }

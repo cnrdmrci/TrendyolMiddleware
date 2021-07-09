@@ -2,15 +2,14 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using TrendyolMiddleware.Services.Middleware;
-using TrendyolMiddleware.Services.Middleware.CoreMiddleware;
 
-namespace TrendyolMiddleware.Middleware
+namespace TrendyolMiddleware.BaseMiddleware
 {
-    public class GeneralMiddleware
+    public class CoreMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public GeneralMiddleware(RequestDelegate next)
+        public CoreMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -19,9 +18,9 @@ namespace TrendyolMiddleware.Middleware
         {
             try
             {
-                await middlewareService.BeforeDelegateHandler(httpContext);
+                await middlewareService.RequestHandler(httpContext);
                 await _next(httpContext);
-                await middlewareService.AfterDelegateHandler(httpContext);
+                await middlewareService.ResponseHandler(httpContext);
             }
             catch (Exception exception)
             {
