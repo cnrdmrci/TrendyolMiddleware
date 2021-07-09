@@ -28,7 +28,7 @@ namespace TrendyolMiddleware.Services.Middleware
             
             await InitializeBaseMiddlewareModelAsync(httpContext);
             
-            RunMiddlewares();
+            _middlewares.ForEach(async (x) => await x.RequestHandler(_baseMiddlewareModel));
         }
 
         public async Task ResponseHandler(HttpContext httpContext)
@@ -37,16 +37,13 @@ namespace TrendyolMiddleware.Services.Middleware
             await httpContext.SetResponseAsync(_baseMiddlewareModel);
             
             await _responseBody.CopyToAsync(_pureResponseBody);
-            RunMiddlewares();
-        }
-
-        private void RunMiddlewares()
-        {
+            
             _middlewares.ForEach(async (x) => await x.ResponseHandler(_baseMiddlewareModel));
         }
 
         public Task ExceptionHandler(HttpContext httpContext, Exception exception)
         {
+            Console.WriteLine(exception.Message);
             throw new System.NotImplementedException();
         }
         
@@ -64,7 +61,6 @@ namespace TrendyolMiddleware.Services.Middleware
  
         private void CacheResponseBodyPointer(HttpContext httpContext)
         {
-            if (_pureResponseBody == null) throw new ArgumentNullException(nameof(_pureResponseBody));
             if (_responseBody == null) throw new ArgumentNullException(nameof(_responseBody));
             
             _pureResponseBody = httpContext.Response.Body;
