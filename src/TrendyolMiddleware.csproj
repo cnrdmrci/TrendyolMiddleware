@@ -12,10 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\RestServices\Exception\Abstract" />
-      <Folder Include="Services\RestServices\Exception\Concrete" />
-      <Folder Include="Services\RestServices\TimeManagement\Abstract" />
-      <Folder Include="Services\RestServices\TimeManagement\Concrete" />
+      <Folder Include="Outputs\Logging\LogMain" />
     </ItemGroup>
 
 </Project>

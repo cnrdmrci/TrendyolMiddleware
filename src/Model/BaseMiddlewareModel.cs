@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TrendyolMiddleware.Model
 {
-    public class MiddlewareInformation 
+    public class BaseMiddlewareModel
     {
         public string Id { get; set; }
         public string RequestBody { get; set; }

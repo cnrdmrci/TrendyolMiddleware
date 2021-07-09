@@ -1,4 +1,4 @@
-namespace TrendyolMiddleware.SpecialMiddlewares
+namespace TrendyolMiddleware.Outputs.Logging.Concrete
 {
     public enum LogType
     {
