@@ -56,6 +56,11 @@ namespace TrendyolMiddleware.Services.Middleware
                 HttpMethod = httpContext.RequestMethod(),
                 CallDate = DateTime.Now,
                 Headers = httpContext.RequestHeaders(),
+                Controller = httpContext.GetControllerName(),
+                Action = httpContext.GetActionName(),
+                FullAction = httpContext.GetFullAction(),
+                RequestUri = httpContext.GetRequestUri(),
+                ResponseStatusCode = httpContext.GetResponseStatusCode()
             };
         }
  

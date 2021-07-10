@@ -12,6 +12,7 @@ namespace TrendyolMiddleware.Outputs.Logging.LogConfig
         public bool RequestUriLogEnabled { get; set; } = true;
         public bool ActionLogEnabled { get; set; } = true;
         public bool StatusCodeLogEnabled { get; set; } = true;
+        public bool ProcessingTimeLogEnabled { get; set; } = true;
         public LogType LogType { get; set; }
         public List<FieldDescription> FieldDescriptionListForConstant { get; set; }
         public List<HeaderFieldDesctiption> FieldDescriptionListForHeaderKey { get; set; }
