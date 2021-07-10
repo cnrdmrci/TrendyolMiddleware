@@ -44,10 +44,6 @@ namespace Net5
                 config.AddMiddleware(new LogMiddleware(new LogConfiguration()
                 {
                     LogType = LogType.Console,
-                    HttpMethodLogEnabled = false,
-                    ControllerLogEnabled = false,
-                    RequestUriLogEnabled = false,
-                    ActionLogEnabled = false,
                     FieldDescriptionListForConstant = new List<FieldDescription>()
                     {
                         new FieldDescription()

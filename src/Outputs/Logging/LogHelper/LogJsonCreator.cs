@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using Newtonsoft.Json;
 using TrendyolMiddleware.Model;
 using TrendyolMiddleware.Outputs.Logging.LogConfig;
@@ -23,6 +22,9 @@ namespace TrendyolMiddleware.Outputs.Logging.LogHelper
             FillAuditLogRequestUri(baseMiddlewareModel, auditLog, logConfiguration);
             FillAuditLogAction(baseMiddlewareModel, auditLog, logConfiguration);
             FillAuditLogStatusCode(baseMiddlewareModel, auditLog, logConfiguration);
+            FillAuditLogProcessingTime(baseMiddlewareModel, auditLog, logConfiguration);
+            FillAuditLogCallDate(baseMiddlewareModel, auditLog);
+            FillAuditLogFullAction(baseMiddlewareModel, auditLog);
 
             FillConstantField(auditLog, logConfiguration);
 
@@ -66,48 +68,87 @@ namespace TrendyolMiddleware.Outputs.Logging.LogHelper
         {
             auditLog.Id = baseMiddlewareModel.Id;
         }
+        
+        private void FillAuditLogProcessingTime(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
+            LogConfiguration logConfiguration)
+        {
+            if (logConfiguration.ProcessingTimeLogEnabled)
+            {
+                auditLog.ProcessingTime =  baseMiddlewareModel.ProcessingTime;
+            }
+        }
+        
+        private void FillAuditLogCallDate(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog)
+        {
+                auditLog.CallDate =  baseMiddlewareModel.CallDate;
+        }
+        
+        private void FillAuditLogFullAction(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog)
+        {
+                auditLog.FullAction =  baseMiddlewareModel.FullAction;
+        }
 
         private void FillAuditLogRequestBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogConfiguration logConfiguration)
         {
-            auditLog.RequestBody = logConfiguration.RequestBodyLogEnabled ? baseMiddlewareModel.RequestBody : null;
+            if (logConfiguration.RequestBodyLogEnabled)
+            {
+                auditLog.RequestBody =  baseMiddlewareModel.RequestBody;
+            }
         }
 
         private void FillAuditLogResponseBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogConfiguration logConfiguration)
         {
-            auditLog.ResponseBody = logConfiguration.ResponseBodyLogEnabled ? baseMiddlewareModel.ResponseBody : null;
+            if (logConfiguration.ResponseBodyLogEnabled)
+            {   
+                auditLog.ResponseBody = baseMiddlewareModel.ResponseBody;
+            }
         }
 
         private void FillAuditLogController(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogConfiguration logConfiguration)
         {
-            auditLog.Controller = logConfiguration.ControllerLogEnabled ? baseMiddlewareModel.Controller : null;
+            if (logConfiguration.ControllerLogEnabled)
+            {
+                auditLog.Controller = baseMiddlewareModel.Controller;
+            }
         }
 
         private void FillAuditLogRequestUri(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogConfiguration logConfiguration)
         {
-            auditLog.RequestUri = logConfiguration.RequestUriLogEnabled ? baseMiddlewareModel.RequestUri : null;
+            if (logConfiguration.RequestUriLogEnabled)
+            {
+                auditLog.RequestUri = baseMiddlewareModel.RequestUri;   
+            }
         }
 
         private void FillAuditLogAction(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogConfiguration logConfiguration)
         {
-            auditLog.Action = logConfiguration.ActionLogEnabled ? baseMiddlewareModel.Action : null;
+            if (logConfiguration.ActionLogEnabled)
+            {
+                auditLog.Action = baseMiddlewareModel.Action;
+            }
         }
 
         private void FillAuditLogStatusCode(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogConfiguration logConfiguration)
         {
-            auditLog.ResponseStatusCode =
-                logConfiguration.StatusCodeLogEnabled ? baseMiddlewareModel.ResponseStatusCode : null;
+            if (logConfiguration.StatusCodeLogEnabled)
+            {
+                auditLog.ResponseStatusCode = baseMiddlewareModel.ResponseStatusCode.ToString();
+            }
         }
 
         private void FillAuditLogHttpMethod(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogConfiguration logConfiguration)
         {
-            auditLog.HttpMethod = logConfiguration.HttpMethodLogEnabled ? baseMiddlewareModel.HttpMethod : null;
+            if (logConfiguration.HttpMethodLogEnabled)
+            {
+                auditLog.HttpMethod = baseMiddlewareModel.HttpMethod;
+            }
         }
     }
 }

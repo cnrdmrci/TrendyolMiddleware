@@ -14,9 +14,9 @@ namespace TrendyolMiddleware.Model
         public DateTime CallDate { get; set; }
         public Dictionary<string,string> Headers { get; set; }
         public string RequestUri { get; set; }
-        public string UserAgent { get; set; }
-        public string ResponseStatusCode { get; set; }
+        public int ResponseStatusCode { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
+        public string FullAction { get; set; }
     }
 }
