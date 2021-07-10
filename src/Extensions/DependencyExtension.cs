@@ -1,11 +1,11 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using TrendyolMiddleware.BaseMiddleware;
-using TrendyolMiddleware.Configuration;
-using TrendyolMiddleware.Registry;
+using Trendyol.TyMiddleware.BaseMiddleware;
+using Trendyol.TyMiddleware.Configuration;
+using Trendyol.TyMiddleware.Registry;
 
-namespace TrendyolMiddleware.Extensions
+namespace Trendyol.TyMiddleware.Extensions
 {
     public static class DependencyExtension
     {
@@ -14,12 +14,12 @@ namespace TrendyolMiddleware.Extensions
             serviceCollection.RegisterMiddlewareServices();
         }
 
-        public static void UseTrendyolMiddleware(this IApplicationBuilder applicationBuilder)
+        public static void UseTyMiddleware(this IApplicationBuilder applicationBuilder)
         {
             applicationBuilder.UseMiddleware<CoreMiddleware>();
         }
         
-        public static void UseTrendyolMiddleware(this IApplicationBuilder applicationBuilder,Action<MiddlewareConfiguration> middlewareConfigurationAction)
+        public static void UseTyMiddleware(this IApplicationBuilder applicationBuilder,Action<MiddlewareConfiguration> middlewareConfigurationAction)
         {
             middlewareConfigurationAction(new MiddlewareConfiguration());
             applicationBuilder.UseMiddleware<CoreMiddleware>();

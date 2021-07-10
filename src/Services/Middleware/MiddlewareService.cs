@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using TrendyolMiddleware.BaseMiddleware;
-using TrendyolMiddleware.Configuration;
-using TrendyolMiddleware.Extensions;
-using TrendyolMiddleware.Model;
+using Trendyol.TyMiddleware.BaseMiddleware;
+using Trendyol.TyMiddleware.Configuration;
+using Trendyol.TyMiddleware.Extensions;
+using Trendyol.TyMiddleware.Model;
 
-namespace TrendyolMiddleware.Services.Middleware
+namespace Trendyol.TyMiddleware.Services.Middleware
 {
     public class MiddlewareService : IMiddlewareService
     {
@@ -52,10 +52,10 @@ namespace TrendyolMiddleware.Services.Middleware
             _baseMiddlewareModel = new BaseMiddlewareModel
             {
                 Id = Guid.NewGuid().ToString(),
-                RequestBody = await httpContext.RequestBody(),
-                HttpMethod = httpContext.RequestMethod(),
+                RequestBody = await httpContext.GetRequestBody(),
+                HttpMethod = httpContext.GetRequestMethod(),
                 CallDate = DateTime.Now,
-                Headers = httpContext.RequestHeaders(),
+                Headers = httpContext.GetRequestHeaders(),
                 Controller = httpContext.GetControllerName(),
                 Action = httpContext.GetActionName(),
                 FullAction = httpContext.GetFullAction(),

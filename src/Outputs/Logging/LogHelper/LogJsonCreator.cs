@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using Newtonsoft.Json;
-using TrendyolMiddleware.Model;
-using TrendyolMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Model;
+using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 using TrendyolMiddleware.Utils;
 
-namespace TrendyolMiddleware.Outputs.Logging.LogHelper
+namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
 {
     public class LogJsonCreator
     {

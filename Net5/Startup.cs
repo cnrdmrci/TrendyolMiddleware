@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using TrendyolMiddleware.Extensions;
-using TrendyolMiddleware.Middlewares;
-using TrendyolMiddleware.Outputs.Logging.Concrete;
-using TrendyolMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Extensions;
+using Trendyol.TyMiddleware.Middlewares;
+using Trendyol.TyMiddleware.Outputs.Logging.Concrete;
+using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 
 namespace Net5
 {
@@ -39,7 +39,7 @@ namespace Net5
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Net5 v1"));
             }
                     
-            app.UseTrendyolMiddleware(config =>
+            app.UseTyMiddleware(config =>
             {
                 config.AddMiddleware(new LogMiddleware(new LogConfiguration()
                 {

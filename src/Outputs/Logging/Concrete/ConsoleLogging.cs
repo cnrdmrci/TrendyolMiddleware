@@ -1,10 +1,10 @@
 using System;
-using TrendyolMiddleware.Model;
-using TrendyolMiddleware.Outputs.Logging.Abstract;
-using TrendyolMiddleware.Outputs.Logging.LogConfig;
-using TrendyolMiddleware.Outputs.Logging.LogHelper;
+using Trendyol.TyMiddleware.Model;
+using Trendyol.TyMiddleware.Outputs.Logging.Abstract;
+using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Outputs.Logging.LogHelper;
 
-namespace TrendyolMiddleware.Outputs.Logging.Concrete
+namespace Trendyol.TyMiddleware.Outputs.Logging.Concrete
 {
     public class ConsoleLogging : LogProvider
     {

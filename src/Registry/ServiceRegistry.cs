@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using TrendyolMiddleware.Services.Middleware;
+using Trendyol.TyMiddleware.Services.Middleware;
 
-namespace TrendyolMiddleware.Registry
+namespace Trendyol.TyMiddleware.Registry
 {
     public static class ServiceRegistry
     {

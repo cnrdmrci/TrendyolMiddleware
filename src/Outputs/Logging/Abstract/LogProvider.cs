@@ -1,7 +1,7 @@
-using TrendyolMiddleware.Model;
-using TrendyolMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Model;
+using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 
-namespace TrendyolMiddleware.Outputs.Logging.Abstract
+namespace Trendyol.TyMiddleware.Outputs.Logging.Abstract
 {
     public abstract class LogProvider
     {
