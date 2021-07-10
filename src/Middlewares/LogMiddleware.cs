@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
-using TrendyolMiddleware.BaseMiddleware;
-using TrendyolMiddleware.Model;
-using TrendyolMiddleware.Outputs.Logging.Abstract;
-using TrendyolMiddleware.Outputs.Logging.LogConfig;
-using TrendyolMiddleware.Outputs.Logging.LogHelper;
+using Trendyol.TyMiddleware.BaseMiddleware;
+using Trendyol.TyMiddleware.Model;
+using Trendyol.TyMiddleware.Outputs.Logging.Abstract;
+using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Outputs.Logging.LogHelper;
 
-namespace TrendyolMiddleware.Middlewares
+namespace Trendyol.TyMiddleware.Middlewares
 {
     public class LogMiddleware : IBaseMiddleware
     {

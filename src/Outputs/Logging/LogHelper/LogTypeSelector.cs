@@ -1,8 +1,8 @@
-using TrendyolMiddleware.Outputs.Logging.Abstract;
-using TrendyolMiddleware.Outputs.Logging.Concrete;
-using TrendyolMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Outputs.Logging.Abstract;
+using Trendyol.TyMiddleware.Outputs.Logging.Concrete;
+using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 
-namespace TrendyolMiddleware.Outputs.Logging.LogHelper
+namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
 {
     public class LogTypeSelector
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TrendyolMiddleware.Outputs.Logging.Concrete;
+using Trendyol.TyMiddleware.Outputs.Logging.Concrete;
 
-namespace TrendyolMiddleware.Outputs.Logging.LogConfig
+namespace Trendyol.TyMiddleware.Outputs.Logging.LogConfig
 {
     public class LogConfiguration
     {

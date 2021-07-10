@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TrendyolMiddleware.BaseMiddleware;
+using Trendyol.TyMiddleware.BaseMiddleware;
 
-namespace TrendyolMiddleware.Configuration
+namespace Trendyol.TyMiddleware.Configuration
 {
     public static class BaseConfiguration
     {

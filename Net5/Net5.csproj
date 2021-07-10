@@ -9,7 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\TrendyolMiddleware.csproj" />
+      <ProjectReference Include="..\src\TyMiddleware.csproj" />
     </ItemGroup>
 
 </Project>

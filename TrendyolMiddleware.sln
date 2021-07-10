@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1356FCEB-2DCB-456C-AD46-74308AFECB73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrendyolMiddleware", "src\TrendyolMiddleware.csproj", "{728B1646-8939-45D8-B2D7-07C795F5DF05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TyMiddleware", "src\TyMiddleware.csproj", "{728B1646-8939-45D8-B2D7-07C795F5DF05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2B6CE4AE-1940-437C-AD0A-609BC69890AC}"
 EndProject

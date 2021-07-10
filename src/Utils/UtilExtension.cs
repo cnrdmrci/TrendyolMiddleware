@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using TrendyolMiddleware.Outputs.Logging.LogConfig;
 
 namespace TrendyolMiddleware.Utils
 {
