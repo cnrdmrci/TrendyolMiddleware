@@ -9,11 +9,11 @@ namespace Trendyol.TyMiddleware.Middlewares
 {
     public class LogMiddleware : IBaseMiddleware
     {
-        private readonly LogConfiguration _logConfiguration;
+        private readonly LogProfile _logProfile;
 
-        public LogMiddleware(LogConfiguration logConfiguration)
+        public LogMiddleware(LogProfile logProfile)
         {
-            _logConfiguration = logConfiguration;
+            _logProfile = logProfile;
         }
 
         public Task RequestHandler(BaseMiddlewareModel baseMiddlewareModel)
@@ -23,8 +23,8 @@ namespace Trendyol.TyMiddleware.Middlewares
 
         public Task ResponseHandler(BaseMiddlewareModel baseMiddlewareModel)
         {
-            LogProvider logProvider = LogTypeSelector.GetLogMethod(_logConfiguration);
-            logProvider.Log(baseMiddlewareModel);
+            LogFactory logFactory = LogTypeSelector.GetLogMethod(_logProfile);
+            logFactory.Log(baseMiddlewareModel);
             
             return Task.CompletedTask;
         }

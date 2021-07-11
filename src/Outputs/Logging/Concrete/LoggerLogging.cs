@@ -5,15 +5,15 @@ using Trendyol.TyMiddleware.Outputs.Logging.LogHelper;
 
 namespace Trendyol.TyMiddleware.Outputs.Logging.Concrete
 {
-    public class LoggerLogging  : LogProvider
+    public class LoggerLogging  : LogFactory
     {
-        public LoggerLogging(LogConfiguration logConfiguration) : base(logConfiguration)
+        public LoggerLogging(LogProfile logProfile) : base(logProfile)
         {
         }
         
         public override void Log(BaseMiddlewareModel baseMiddlewareModel)
         {
-            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, LogConfiguration);
+            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, LogProfile);
             var json = logJsonCreator.GetParsedJson();
             //TODO: inject ILogger
             

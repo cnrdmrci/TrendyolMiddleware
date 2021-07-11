@@ -3,13 +3,13 @@ using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 
 namespace Trendyol.TyMiddleware.Outputs.Logging.Abstract
 {
-    public abstract class LogProvider
+    public abstract class LogFactory
     {
-        protected readonly LogConfiguration LogConfiguration;
+        protected readonly LogProfile LogProfile;
 
-        protected LogProvider(LogConfiguration logConfiguration)
+        protected LogFactory(LogProfile logProfile)
         {
-            this.LogConfiguration = logConfiguration;
+            this.LogProfile = logProfile;
         }
 
         public abstract void Log(BaseMiddlewareModel baseMiddlewareModel);

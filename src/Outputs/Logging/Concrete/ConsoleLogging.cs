@@ -6,15 +6,15 @@ using Trendyol.TyMiddleware.Outputs.Logging.LogHelper;
 
 namespace Trendyol.TyMiddleware.Outputs.Logging.Concrete
 {
-    public class ConsoleLogging : LogProvider
+    public class ConsoleLogging : LogFactory
     {
-        public ConsoleLogging(LogConfiguration logConfiguration) : base(logConfiguration)
+        public ConsoleLogging(LogProfile logProfile) : base(logProfile)
         {
         }
         
         public override void Log(BaseMiddlewareModel baseMiddlewareModel)
         {
-            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, LogConfiguration);
+            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, LogProfile);
             Console.WriteLine(logJsonCreator.GetParsedJson());
         }
 

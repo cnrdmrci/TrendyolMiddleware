@@ -1,3 +1,4 @@
+using Trendyol.TyMiddleware.Enums;
 using Trendyol.TyMiddleware.Outputs.Logging.Abstract;
 using Trendyol.TyMiddleware.Outputs.Logging.Concrete;
 using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
@@ -6,24 +7,24 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
 {
     public class LogTypeSelector
     {
-        public static LogProvider GetLogMethod(LogConfiguration logConfiguration)
+        public static LogFactory GetLogMethod(LogProfile logProfile)
         {
-            LogProvider logProvider;
+            LogFactory logFactory;
             
-            switch (logConfiguration.LogType)
+            switch (logProfile.LogType)
             {
                 case LogType.Console:
-                    logProvider = new ConsoleLogging(logConfiguration);
+                    logFactory = new ConsoleLogging(logProfile);
                     break;
                 case LogType.Logger:
-                    logProvider = new LoggerLogging(logConfiguration);
+                    logFactory = new LoggerLogging(logProfile);
                     break;
                 default:
-                    logProvider = new ConsoleLogging(logConfiguration);
+                    logFactory = new ConsoleLogging(logProfile);
                     break;
             }
 
-            return logProvider;
+            return logFactory;
         }
     }
 }
