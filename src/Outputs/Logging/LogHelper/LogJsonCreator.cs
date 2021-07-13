@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using Newtonsoft.Json;
 using Trendyol.TyMiddleware.Model;
-using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Profile;
 using TrendyolMiddleware.Utils;
+
 
 namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
 {
@@ -11,25 +12,30 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
     {
         private readonly string _json;
 
-        public LogJsonCreator(BaseMiddlewareModel baseMiddlewareModel, LogConfiguration logConfiguration)
+        public LogJsonCreator(BaseMiddlewareModel baseMiddlewareModel, LogMiddlewareProfile logProfile)
         {
-            dynamic auditLog = new ExpandoObject();
-            FillAuditLogId(baseMiddlewareModel, auditLog);
-            FillAuditLogRequestBody(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogResponseBody(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogHttpMethod(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogController(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogRequestUri(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogAction(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogStatusCode(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogProcessingTime(baseMiddlewareModel, auditLog, logConfiguration);
-            FillAuditLogCallDate(baseMiddlewareModel, auditLog);
-            FillAuditLogFullAction(baseMiddlewareModel, auditLog);
+            dynamic baseLogObject = new ExpandoObject();
+            FillDefaults(baseMiddlewareModel, logProfile, baseLogObject);
 
-            FillConstantField(auditLog, logConfiguration);
+            FillCustomFields(baseLogObject, logProfile);
+            FillHeaderFields(baseMiddlewareModel, baseLogObject, logProfile);
+            
+            _json = JsonConvert.SerializeObject(baseLogObject, Formatting.Indented);
+        }
 
-            FillConstantFieldWithHeaderValue(baseMiddlewareModel, auditLog, logConfiguration);
-            _json = JsonConvert.SerializeObject(auditLog, Formatting.Indented);
+        private void FillDefaults(BaseMiddlewareModel baseMiddlewareModel, LogMiddlewareProfile logProfile, dynamic baseLogObject)
+        {
+            FillAuditLogId(baseMiddlewareModel, baseLogObject);
+            FillAuditLogRequestBody(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogResponseBody(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogHttpMethod(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogController(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogRequestUri(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogAction(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogStatusCode(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogProcessingTime(baseMiddlewareModel, baseLogObject, logProfile);
+            FillAuditLogCallDate(baseMiddlewareModel, baseLogObject);
+            FillAuditLogFullAction(baseMiddlewareModel, baseLogObject);
         }
 
         public string GetParsedJson()
@@ -37,26 +43,26 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
             return _json;
         }
 
-        private void FillConstantFieldWithHeaderValue(BaseMiddlewareModel baseMiddlewareModel, object auditLog,
-            LogConfiguration logConfiguration)
+        private void FillHeaderFields(BaseMiddlewareModel baseMiddlewareModel, object auditLog,
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.FieldDescriptionListForHeaderKey.IsNullOrEmpty()) return;
-
-            foreach (var fieldDescription in logConfiguration.FieldDescriptionListForHeaderKey)
+            if (logProfile.HeaderFields.IsNullOrEmpty()) return;
+            
+            foreach (var fieldDescription in logProfile.HeaderFields)
             {
-                if (baseMiddlewareModel.Headers.ContainsKey(fieldDescription.HeaderKeyForFieldValue))
+                if (baseMiddlewareModel.Headers.ContainsKey((string) fieldDescription.FieldValue))
                 {
                     ((IDictionary<string, object>) auditLog).Add(fieldDescription.FieldName,
-                        baseMiddlewareModel.Headers[fieldDescription.HeaderKeyForFieldValue]);
+                        baseMiddlewareModel.Headers[(string) fieldDescription.FieldValue]);
                 }
             }
         }
 
-        private void FillConstantField(dynamic auditLog, LogConfiguration logConfiguration)
+        private void FillCustomFields(dynamic auditLog, LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.FieldDescriptionListForConstant.IsNullOrEmpty()) return;
-
-            foreach (var fieldDescription in logConfiguration.FieldDescriptionListForConstant)
+            if (logProfile.CustomFields.IsNullOrEmpty()) return;
+            
+            foreach (var fieldDescription in logProfile.CustomFields)
             {
                 ((IDictionary<string, object>) auditLog).Add(fieldDescription.FieldName,
                     fieldDescription.FieldValue);
@@ -70,9 +76,9 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
         
         private void FillAuditLogProcessingTime(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.ProcessingTimeLogEnabled)
+            if (logProfile.ProcessingTimeLogEnabled)
             {
                 auditLog.ProcessingTime =  baseMiddlewareModel.ProcessingTime;
             }
@@ -89,63 +95,63 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogRequestBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.RequestBodyLogEnabled)
+            if (logProfile.RequestBodyLogEnabled)
             {
                 auditLog.RequestBody =  baseMiddlewareModel.RequestBody;
             }
         }
 
         private void FillAuditLogResponseBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.ResponseBodyLogEnabled)
+            if (logProfile.ResponseBodyLogEnabled)
             {   
                 auditLog.ResponseBody = baseMiddlewareModel.ResponseBody;
             }
         }
 
         private void FillAuditLogController(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.ControllerLogEnabled)
+            if (logProfile.ControllerLogEnabled)
             {
                 auditLog.Controller = baseMiddlewareModel.Controller;
             }
         }
 
         private void FillAuditLogRequestUri(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.RequestUriLogEnabled)
+            if (logProfile.RequestUriLogEnabled)
             {
                 auditLog.RequestUri = baseMiddlewareModel.RequestUri;   
             }
         }
 
         private void FillAuditLogAction(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.ActionLogEnabled)
+            if (logProfile.ActionLogEnabled)
             {
                 auditLog.Action = baseMiddlewareModel.Action;
             }
         }
 
         private void FillAuditLogStatusCode(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.StatusCodeLogEnabled)
+            if (logProfile.StatusCodeLogEnabled)
             {
                 auditLog.ResponseStatusCode = baseMiddlewareModel.ResponseStatusCode.ToString();
             }
         }
 
         private void FillAuditLogHttpMethod(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogConfiguration logConfiguration)
+            LogMiddlewareProfile logProfile)
         {
-            if (logConfiguration.HttpMethodLogEnabled)
+            if (logProfile.HttpMethodLogEnabled)
             {
                 auditLog.HttpMethod = baseMiddlewareModel.HttpMethod;
             }

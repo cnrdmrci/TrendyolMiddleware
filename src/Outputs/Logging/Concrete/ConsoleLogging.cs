@@ -1,20 +1,20 @@
 using System;
 using Trendyol.TyMiddleware.Model;
 using Trendyol.TyMiddleware.Outputs.Logging.Abstract;
-using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 using Trendyol.TyMiddleware.Outputs.Logging.LogHelper;
+using Trendyol.TyMiddleware.Profile;
 
 namespace Trendyol.TyMiddleware.Outputs.Logging.Concrete
 {
-    public class ConsoleLogging : LogProvider
+    public class ConsoleLogging : LogFactory
     {
-        public ConsoleLogging(LogConfiguration logConfiguration) : base(logConfiguration)
+        public ConsoleLogging(LogMiddlewareProfile logProfile) : base(logProfile)
         {
         }
         
         public override void Log(BaseMiddlewareModel baseMiddlewareModel)
         {
-            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, LogConfiguration);
+            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, LogProfile);
             Console.WriteLine(logJsonCreator.GetParsedJson());
         }
 
