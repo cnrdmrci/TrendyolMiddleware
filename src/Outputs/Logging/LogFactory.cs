@@ -1,13 +1,13 @@
 using Trendyol.TyMiddleware.Model;
-using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Profile;
 
 namespace Trendyol.TyMiddleware.Outputs.Logging.Abstract
 {
     public abstract class LogFactory
     {
-        protected readonly LogProfile LogProfile;
+        protected readonly LogMiddlewareProfile LogProfile;
 
-        protected LogFactory(LogProfile logProfile)
+        protected LogFactory(LogMiddlewareProfile logProfile)
         {
             this.LogProfile = logProfile;
         }

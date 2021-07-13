@@ -1,19 +1,11 @@
 using System.Collections.Generic;
 using Trendyol.TyMiddleware.Enums;
-using Trendyol.TyMiddleware.Outputs.Logging.Concrete;
+using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 
-namespace Trendyol.TyMiddleware.Outputs.Logging.LogConfig
+namespace Trendyol.TyMiddleware.Profile
 {
-    public class LogProfile : ILogProfile
+    public abstract class LogMiddlewareProfile : IBaseProfile
     {
-        protected LogProfile(string profileName) : this() => ProfileName = profileName;
-
-        private LogProfile()
-        {
-            ProfileName = GetType().FullName;
-        }
-
-        public string ProfileName { get; }
         public bool RequestBodyLogEnabled { get; set; } = true;
         public bool ResponseBodyLogEnabled { get; set; } = true;
         public bool HttpMethodLogEnabled { get; set; } = true;
@@ -23,9 +15,9 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogConfig
         public bool StatusCodeLogEnabled { get; set; } = true;
         public bool ProcessingTimeLogEnabled { get; set; } = true;
         public LogType LogType { get; set; }
-        public List<CustomField> CustomFields { get; set; }
-        public List<HeaderField> HeaderFields { get; set; }
-
+        public List<CustomField> CustomFields { get; set; } = new List<CustomField>();
+        public List<HeaderField> HeaderFields { get; set; } = new List<HeaderField>();
+        
         public void AddCustomFields(string fieldName, object fieldValue)
         {
             if (CustomFields == null)

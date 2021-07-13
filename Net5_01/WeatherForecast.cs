@@ -1,6 +1,6 @@
 using System;
 
-namespace SampleApi
+namespace Net5_01
 {
     public class WeatherForecast
     {

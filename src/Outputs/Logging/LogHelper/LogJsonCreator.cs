@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using Newtonsoft.Json;
 using Trendyol.TyMiddleware.Model;
-using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Profile;
 using TrendyolMiddleware.Utils;
 
 
@@ -12,7 +12,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
     {
         private readonly string _json;
 
-        public LogJsonCreator(BaseMiddlewareModel baseMiddlewareModel, LogProfile logProfile)
+        public LogJsonCreator(BaseMiddlewareModel baseMiddlewareModel, LogMiddlewareProfile logProfile)
         {
             dynamic baseLogObject = new ExpandoObject();
             FillDefaults(baseMiddlewareModel, logProfile, baseLogObject);
@@ -23,7 +23,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
             _json = JsonConvert.SerializeObject(baseLogObject, Formatting.Indented);
         }
 
-        private void FillDefaults(BaseMiddlewareModel baseMiddlewareModel, LogProfile logProfile, dynamic baseLogObject)
+        private void FillDefaults(BaseMiddlewareModel baseMiddlewareModel, LogMiddlewareProfile logProfile, dynamic baseLogObject)
         {
             FillAuditLogId(baseMiddlewareModel, baseLogObject);
             FillAuditLogRequestBody(baseMiddlewareModel, baseLogObject, logProfile);
@@ -44,10 +44,10 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillHeaderFields(BaseMiddlewareModel baseMiddlewareModel, object auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.HeaderFields.IsNullOrEmpty()) return;
-
+            
             foreach (var fieldDescription in logProfile.HeaderFields)
             {
                 if (baseMiddlewareModel.Headers.ContainsKey((string) fieldDescription.FieldValue))
@@ -58,10 +58,10 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
             }
         }
 
-        private void FillCustomFields(dynamic auditLog, LogProfile logProfile)
+        private void FillCustomFields(dynamic auditLog, LogMiddlewareProfile logProfile)
         {
             if (logProfile.CustomFields.IsNullOrEmpty()) return;
-
+            
             foreach (var fieldDescription in logProfile.CustomFields)
             {
                 ((IDictionary<string, object>) auditLog).Add(fieldDescription.FieldName,
@@ -76,7 +76,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
         
         private void FillAuditLogProcessingTime(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.ProcessingTimeLogEnabled)
             {
@@ -95,7 +95,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogRequestBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.RequestBodyLogEnabled)
             {
@@ -104,7 +104,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogResponseBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.ResponseBodyLogEnabled)
             {   
@@ -113,7 +113,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogController(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.ControllerLogEnabled)
             {
@@ -122,7 +122,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogRequestUri(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.RequestUriLogEnabled)
             {
@@ -131,7 +131,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogAction(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.ActionLogEnabled)
             {
@@ -140,7 +140,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogStatusCode(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.StatusCodeLogEnabled)
             {
@@ -149,7 +149,7 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         }
 
         private void FillAuditLogHttpMethod(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
-            LogProfile logProfile)
+            LogMiddlewareProfile logProfile)
         {
             if (logProfile.HttpMethodLogEnabled)
             {

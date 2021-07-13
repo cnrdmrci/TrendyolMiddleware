@@ -1,13 +1,13 @@
 using Trendyol.TyMiddleware.Model;
 using Trendyol.TyMiddleware.Outputs.Logging.Abstract;
-using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
 using Trendyol.TyMiddleware.Outputs.Logging.LogHelper;
+using Trendyol.TyMiddleware.Profile;
 
 namespace Trendyol.TyMiddleware.Outputs.Logging.Concrete
 {
     public class LoggerLogging  : LogFactory
     {
-        public LoggerLogging(LogProfile logProfile) : base(logProfile)
+        public LoggerLogging(LogMiddlewareProfile logProfile) : base(logProfile)
         {
         }
         
