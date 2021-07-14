@@ -12,6 +12,6 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.Abstract
             this.LogProfile = logProfile;
         }
 
-        public abstract void Log(BaseMiddlewareModel baseMiddlewareModel);
+        public abstract void Log(BaseMiddlewareModel baseMiddlewareModel,ApiFilter apiFilter);
     }
 }

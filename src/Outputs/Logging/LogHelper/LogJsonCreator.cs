@@ -11,9 +11,12 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
     public class LogJsonCreator
     {
         private readonly string _json;
+        private readonly ApiFilter _apiFilter;
 
-        public LogJsonCreator(BaseMiddlewareModel baseMiddlewareModel, LogMiddlewareProfile logProfile)
+        public LogJsonCreator(BaseMiddlewareModel baseMiddlewareModel, ApiFilter apiFilter, LogMiddlewareProfile logProfile)
         {
+            _apiFilter = apiFilter;
+            
             dynamic baseLogObject = new ExpandoObject();
             FillDefaults(baseMiddlewareModel, logProfile, baseLogObject);
 
@@ -46,9 +49,10 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         private void FillHeaderFields(BaseMiddlewareModel baseMiddlewareModel, object auditLog,
             LogMiddlewareProfile logProfile)
         {
-            if (logProfile.HeaderFields.IsNullOrEmpty()) return;
+            if (logProfile.GetHeaderFields().IsNullOrEmpty()) return;
+            if (_apiFilter.ApiFilterFieldDetail.HeadersIgnore) return;
             
-            foreach (var fieldDescription in logProfile.HeaderFields)
+            foreach (var fieldDescription in logProfile.GetHeaderFields())
             {
                 if (baseMiddlewareModel.Headers.ContainsKey((string) fieldDescription.FieldValue))
                 {
@@ -60,9 +64,9 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
 
         private void FillCustomFields(dynamic auditLog, LogMiddlewareProfile logProfile)
         {
-            if (logProfile.CustomFields.IsNullOrEmpty()) return;
+            if (logProfile.GetCustomFields().IsNullOrEmpty()) return;
             
-            foreach (var fieldDescription in logProfile.CustomFields)
+            foreach (var fieldDescription in logProfile.GetCustomFields())
             {
                 ((IDictionary<string, object>) auditLog).Add(fieldDescription.FieldName,
                     fieldDescription.FieldValue);
@@ -97,6 +101,8 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         private void FillAuditLogRequestBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogMiddlewareProfile logProfile)
         {
+            if (_apiFilter.ApiFilterFieldDetail.RequestBodyIgnore) return;
+            
             if (logProfile.RequestBodyLogEnabled)
             {
                 auditLog.RequestBody =  baseMiddlewareModel.RequestBody;
@@ -106,6 +112,8 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.LogHelper
         private void FillAuditLogResponseBody(BaseMiddlewareModel baseMiddlewareModel, dynamic auditLog,
             LogMiddlewareProfile logProfile)
         {
+            if (_apiFilter.ApiFilterFieldDetail.ResponseBodyIgnore) return;
+            
             if (logProfile.ResponseBodyLogEnabled)
             {   
                 auditLog.ResponseBody = baseMiddlewareModel.ResponseBody;
