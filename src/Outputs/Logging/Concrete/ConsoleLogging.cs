@@ -12,9 +12,9 @@ namespace Trendyol.TyMiddleware.Outputs.Logging.Concrete
         {
         }
         
-        public override void Log(BaseMiddlewareModel baseMiddlewareModel)
+        public override void Log(BaseMiddlewareModel baseMiddlewareModel, ApiFilter apiFilter)
         {
-            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, LogProfile);
+            var logJsonCreator = new LogJsonCreator(baseMiddlewareModel, apiFilter, LogProfile);
             Console.WriteLine(logJsonCreator.GetParsedJson());
         }
 

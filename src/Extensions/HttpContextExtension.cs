@@ -78,7 +78,7 @@ namespace Trendyol.TyMiddleware.Extensions
 
         public static string GetFullAction(this HttpContext httpContext)
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + httpContext.Request.Path;
+            return System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name + httpContext.Request.Path;
         }
         
         public static string GetRequestUri(this HttpContext httpContext)
