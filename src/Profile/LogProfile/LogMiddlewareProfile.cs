@@ -1,9 +1,8 @@
+using System;
 using System.Collections.Generic;
-using Trendyol.TyMiddleware.Enums;
-using Trendyol.TyMiddleware.Model;
-using Trendyol.TyMiddleware.Outputs.Logging.LogConfig;
+using Trendyol.TyMiddleware.Middlewares;
 
-namespace Trendyol.TyMiddleware.Profile
+namespace Trendyol.TyMiddleware
 {
     public abstract class LogMiddlewareProfile : IBaseProfile
     {
@@ -59,6 +58,11 @@ namespace Trendyol.TyMiddleware.Profile
         public List<HeaderField> GetHeaderFields()
         {
             return _headerFields;
+        }
+
+        public Type GetMiddlewareType()
+        {
+            return typeof(LogMiddleware);
         }
     }
 }
