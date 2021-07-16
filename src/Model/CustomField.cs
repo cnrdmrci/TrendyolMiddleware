@@ -1,11 +1,11 @@
-namespace Trendyol.TyMiddleware.Outputs.Logging.LogConfig
+namespace Trendyol.TyMiddleware
 {
-    public class HeaderField
+    public class CustomField
     {
         private string _fieldName;
         private object _fieldValue;
 
-        public HeaderField(string name, object value)
+        public CustomField(string name, object value)
         {
             FieldName = name;
             FieldValue = value;

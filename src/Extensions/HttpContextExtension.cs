@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Trendyol.TyMiddleware.Model;
-using TrendyolMiddleware.Utils;
 
 namespace Trendyol.TyMiddleware.Extensions
 {

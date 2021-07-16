@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Trendyol.TyMiddleware.Services.Middleware;
+using Trendyol.TyMiddleware.Core.MiddlewareCoreProcessService;
 
-namespace Trendyol.TyMiddleware.BaseMiddleware
+namespace Trendyol.TyMiddleware.Core.MiddlewareMainGate
 {
     public class CoreMiddleware
     {

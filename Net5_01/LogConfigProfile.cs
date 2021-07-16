@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Net5_01.NewTest;
-using Trendyol.TyMiddleware.Enums;
-using Trendyol.TyMiddleware.Model;
-using Trendyol.TyMiddleware.Profile;
+using Trendyol.TyMiddleware;
 
 namespace Net5_01
 {

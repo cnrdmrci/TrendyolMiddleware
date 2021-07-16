@@ -1,12 +1,11 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Trendyol.TyMiddleware.BaseMiddleware;
 using Trendyol.TyMiddleware.Configuration;
-using Trendyol.TyMiddleware.Profile;
+using Trendyol.TyMiddleware.Core.MiddlewareMainGate;
 using Trendyol.TyMiddleware.Registry;
 
-namespace Trendyol.TyMiddleware.Extensions
+namespace Trendyol.TyMiddleware
 {
     public static class DependencyExtension
     {
@@ -22,9 +21,8 @@ namespace Trendyol.TyMiddleware.Extensions
             BaseConfiguration.GetBaseProfileTypes().ForEach(x => serviceCollection.AddScoped(x));
             BaseConfiguration.GetBaseProfileTypes().ForEach(x =>
             {
-                BaseConfiguration.AddBaseProfile((IBaseProfile)serviceCollection.BuildServiceProvider().GetService(x));
+                BaseConfiguration.AddBaseProfile((IBaseProfile) serviceCollection.BuildServiceProvider().GetService(x));
             });
-            
         }
 
         public static void UseTyMiddleware(this IApplicationBuilder applicationBuilder)

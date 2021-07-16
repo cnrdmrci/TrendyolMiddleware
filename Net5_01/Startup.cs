@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Net5_01.NewTest;
-using Trendyol.TyMiddleware.Extensions;
+using Trendyol.TyMiddleware;
 
 namespace Net5_01
 {

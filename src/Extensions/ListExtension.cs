@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TrendyolMiddleware.Utils
+namespace Trendyol.TyMiddleware.Extensions
 {
-    public static class UtilExtension
+    public static class ListExtension
     {
         public static bool AnyNullSafe<T>(this List<T> list) 
         {
