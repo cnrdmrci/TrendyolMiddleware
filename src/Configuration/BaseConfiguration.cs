@@ -2,21 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Trendyol.TyMiddleware.BaseMiddleware;
-using Trendyol.TyMiddleware.Profile;
 
 namespace Trendyol.TyMiddleware.Configuration
 {
     public static class BaseConfiguration
     {
-        private static readonly List<IBaseMiddleware> BaseMiddlewares;
+        private static readonly List<Type> BaseMiddlewareTypes;
         private static readonly List<IBaseProfile> BaseProfiles;
         private static readonly List<Type> BaseProfileTypes;
         private static readonly IEnumerable<Type> MiddlewareProfileTypes;
 
         static BaseConfiguration()
         {
-            BaseMiddlewares = new List<IBaseMiddleware>();
+            BaseMiddlewareTypes = new List<Type>();
             BaseProfiles = new List<IBaseProfile>();
             BaseProfileTypes = new List<Type>();
             MiddlewareProfileTypes = GetMiddlewareProfileTypes();
@@ -24,13 +22,19 @@ namespace Trendyol.TyMiddleware.Configuration
 
         private static IEnumerable<Type> GetMiddlewareProfileTypes()
         {
-            return Assembly.GetEntryAssembly()?.GetTypes()
-                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(LogMiddlewareProfile)));
+            return Assembly
+                .GetEntryAssembly()?
+                .GetTypes()
+                .Where(myType =>
+                    myType.IsClass &&
+                    !myType.IsAbstract &&
+                    myType.IsSubclassOf(typeof(LogMiddlewareProfile))
+                );
         }
 
-        public static void AddMiddleware(IBaseMiddleware baseMiddleware)
+        public static void AddMiddlewareType(Type baseMiddlewareType)
         {
-            BaseMiddlewares.Add(baseMiddleware);
+            BaseMiddlewareTypes.Add(baseMiddlewareType);
         }
 
         public static void AddType(Type type)
@@ -40,38 +44,40 @@ namespace Trendyol.TyMiddleware.Configuration
             {
                 throw new Exception($"Profile({type.Name}) not found.");
             }
-            
+
             BaseProfileTypes.Add(type);
         }
-        
+
         public static void AddBaseProfile(IBaseProfile baseProfile)
         {
             BaseProfiles.Add(baseProfile);
-            
+
             AddMiddlewareForProfile(baseProfile);
         }
 
         private static void AddMiddlewareForProfile(IBaseProfile baseProfile)
         {
-            var baseMiddleware = ProfileCoupling.GetBaseMiddleware(baseProfile);
-            if (baseMiddleware == null) return;
-            
-            AddMiddleware(baseMiddleware);
+            AddMiddlewareType(baseProfile.GetMiddlewareType());
         }
 
-        public static void AddMiddlewares(List<IBaseMiddleware> baseMiddlewares)
+        public static void AddMiddlewares(List<Type> baseMiddlewareTypes)
         {
-            BaseMiddlewares.AddRange(baseMiddlewares);
+            BaseMiddlewareTypes.AddRange(baseMiddlewareTypes);
         }
 
-        public static List<IBaseMiddleware> GetMiddlewares()
+        public static List<Type> GetMiddlewareTypes()
         {
-            return BaseMiddlewares;
+            return BaseMiddlewareTypes;
         }
 
         public static List<IBaseProfile> GetBaseProfiles()
         {
             return BaseProfiles;
+        }
+
+        public static T GetProfile<T>() where T : IBaseProfile
+        {
+            return GetBaseProfiles().OfType<T>().FirstOrDefault();
         }
 
         public static List<Type> GetBaseProfileTypes()
