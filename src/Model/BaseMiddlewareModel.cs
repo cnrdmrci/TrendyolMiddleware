@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Trendyol.TyMiddleware.Model
+namespace Trendyol.TyMiddleware
 {
     public class BaseMiddlewareModel
     {

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Trendyol.TyMiddleware.BaseMiddleware;
 using Trendyol.TyMiddleware.Configuration;
+using Trendyol.TyMiddleware.Core.MiddlewareCoreProvider;
 using Trendyol.TyMiddleware.Extensions;
-using Trendyol.TyMiddleware.Model;
 
-namespace Trendyol.TyMiddleware.Services.Middleware
+namespace Trendyol.TyMiddleware.Core.MiddlewareCoreProcessService
 {
     public class MiddlewareService : IMiddlewareService
     {
@@ -17,28 +16,34 @@ namespace Trendyol.TyMiddleware.Services.Middleware
         private readonly MemoryStream _responseBody;
         private Stream _pureResponseBody;
         
-        public MiddlewareService()
+        public MiddlewareService(IServiceProvider serviceProvider)
         {
             _responseBody = new MemoryStream();
-            _middlewares = BaseConfiguration.GetMiddlewares();
+            _middlewares = BaseConfiguration.GetMiddlewareTypes().CreateServices(serviceProvider);
         }
         public async Task RequestHandler(HttpContext httpContext)
         {
             CacheResponseBodyPointer(httpContext);
-            
             await InitializeBaseMiddlewareModelAsync(httpContext);
-            
             _middlewares.ForEach(async (x) => await x.RequestHandler(_baseMiddlewareModel));
         }
 
         public async Task ResponseHandler(HttpContext httpContext)
-        { 
+        {
+            await SetResponseInformationToMiddlewareModel(httpContext);
+            await CopyResponseBodyToOriginalOffset();
+            _middlewares.ForEach(async (x) => await x.ResponseHandler(_baseMiddlewareModel));
+        }
+
+        private async Task CopyResponseBodyToOriginalOffset()
+        {
+            await _responseBody.CopyToAsync(_pureResponseBody);
+        }
+
+        private async Task SetResponseInformationToMiddlewareModel(HttpContext httpContext)
+        {
             httpContext.SetProcessingTime(_baseMiddlewareModel);
             await httpContext.SetResponseAsync(_baseMiddlewareModel);
-            
-            await _responseBody.CopyToAsync(_pureResponseBody);
-            
-            _middlewares.ForEach(async (x) => await x.ResponseHandler(_baseMiddlewareModel));
         }
 
         public Task ExceptionHandler(HttpContext httpContext, Exception exception)
