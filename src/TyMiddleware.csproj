@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp2.2;netcoreapp2.0</TargetFrameworks>
         <PackageId>Trendyol.TyMiddleware</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <RootNamespace>Trendyol.TyMiddleware</RootNamespace>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>Caner Demirci,Mennan Sevim</Authors>
