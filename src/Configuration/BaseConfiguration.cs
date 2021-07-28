@@ -22,13 +22,15 @@ namespace Trendyol.TyMiddleware.Configuration
 
         private static IEnumerable<Type> GetMiddlewareProfileTypes()
         {
+            var baseProfileType = typeof(IBaseProfile);
+
             return Assembly
                 .GetEntryAssembly()?
                 .GetTypes()
                 .Where(myType =>
                     myType.IsClass &&
                     !myType.IsAbstract &&
-                    myType.IsSubclassOf(typeof(LogMiddlewareProfile))
+                    baseProfileType.IsAssignableFrom(myType)
                 );
         }
 
