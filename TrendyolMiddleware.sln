@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TyMiddleware", "src\TyMiddl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2B6CE4AE-1940-437C-AD0A-609BC69890AC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{FFAD92EF-A1E1-43C1-AEFB-E4A4DB7C4BBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApi", "sample\SampleApi\SampleApi.csproj", "{A91F2BB3-4581-498E-9D4F-6207B351EAFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,8 +20,13 @@ Global
 		{728B1646-8939-45D8-B2D7-07C795F5DF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{728B1646-8939-45D8-B2D7-07C795F5DF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{728B1646-8939-45D8-B2D7-07C795F5DF05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A91F2BB3-4581-498E-9D4F-6207B351EAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91F2BB3-4581-498E-9D4F-6207B351EAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91F2BB3-4581-498E-9D4F-6207B351EAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91F2BB3-4581-498E-9D4F-6207B351EAFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{728B1646-8939-45D8-B2D7-07C795F5DF05} = {1356FCEB-2DCB-456C-AD46-74308AFECB73}
+		{A91F2BB3-4581-498E-9D4F-6207B351EAFC} = {FFAD92EF-A1E1-43C1-AEFB-E4A4DB7C4BBA}
 	EndGlobalSection
 EndGlobal
