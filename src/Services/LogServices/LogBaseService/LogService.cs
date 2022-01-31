@@ -1,20 +1,20 @@
 using Trendyol.TyMiddleware.Services.LogServices.LogMiddlewareFilter;
 using Trendyol.TyMiddleware.Services.LogServices.LogProvider;
-using Trendyol.TyMiddleware.Services.LogServices.LogStrategy;
+using Trendyol.TyMiddleware.Services.LogServices.LogStrategy.AbstractLogStrategy;
 
 namespace Trendyol.TyMiddleware.Services.LogServices.LogBaseService
 {
     public class LogService : ILogService
     {
         private readonly ILogProfileService _logProfileService;
-        private readonly LogMiddlewareProfile _logProfile;
         private readonly ILogProviderService _logProviderService;
+        private readonly ILogStrategy _logStrategy;
 
-        public LogService(ILogProviderService logProviderService, ILogProfileService logProfileService)
+        public LogService(ILogProviderService logProviderService, ILogProfileService logProfileService, ILogStrategy logStrategy)
         {
             _logProfileService = logProfileService;
+            _logStrategy = logStrategy;
             _logProviderService = logProviderService;
-            _logProfile = _logProfileService.GetLogMiddlewareProfile();
         }
 
         public void Log(BaseMiddlewareModel baseMiddlewareModel)
@@ -23,8 +23,7 @@ namespace Trendyol.TyMiddleware.Services.LogServices.LogBaseService
 
             dynamic logObject = _logProviderService.CreateLogObject(baseMiddlewareModel);
             
-            LogStrategyBase logStrategyBase = LogStrategyFactory.GetLogStrategy(_logProfile);
-            logStrategyBase.SaveLog(logObject);
+            _logStrategy.SaveLog(logObject);
         }
     }
 }

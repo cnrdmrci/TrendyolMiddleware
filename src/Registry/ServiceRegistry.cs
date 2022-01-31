@@ -4,6 +4,8 @@ using Trendyol.TyMiddleware.Middlewares;
 using Trendyol.TyMiddleware.Services.LogServices.LogBaseService;
 using Trendyol.TyMiddleware.Services.LogServices.LogMiddlewareFilter;
 using Trendyol.TyMiddleware.Services.LogServices.LogProvider;
+using Trendyol.TyMiddleware.Services.LogServices.LogStrategy.AbstractLogStrategy;
+using Trendyol.TyMiddleware.Services.LogServices.LogStrategy.LogStrategyService;
 
 namespace Trendyol.TyMiddleware.Registry
 {
@@ -22,7 +24,11 @@ namespace Trendyol.TyMiddleware.Registry
             serviceCollection.AddScoped<ILogProfileService, LogProfileService>();
             serviceCollection.AddScoped<ILogService,LogService>();
             serviceCollection.AddScoped<LogMiddleware>();
-            
+
+            serviceCollection.AddScoped<ILogStrategy, LogStrategy>();
+            serviceCollection.AddScoped<ILogStrategyService, LogConsoleService>();
+            serviceCollection.AddScoped<ILogStrategyService, LogLoggerService>();
+
         }
     }
 }
