@@ -114,24 +114,26 @@ namespace Trendyol.TyMiddleware.Services.LogServices.LogProvider
 
             if (_logProfile.RequestBodyLogEnabled)
             {
-
                 if (_logProfile.SecurePasswordLogModel.SecurePasswordLogEnabled)
                 {
                     dynamic dynamicRequestObjects = JsonConvert.DeserializeObject(_baseMiddlewareModel.RequestBody);
-                    foreach (var dynamicRequestObject in dynamicRequestObjects)
+                    if (dynamicRequestObjects != null)
                     {
-                        var property = dynamicRequestObject.Path;
-                        
-                        if (!_logProfile.SecurePasswordLogModel.CaseSensitiveEnabled)
-                            property = property.ToLower();
-                        
-                        if (_logProfile.SecurePasswordLogModel.PasswordFieldNames.Contains(property))
+                        foreach (var dynamicRequestObject in dynamicRequestObjects)
                         {
-                            dynamicRequestObject.Value = "***";
+                            var property = dynamicRequestObject.Path;
+                        
+                            if (!_logProfile.SecurePasswordLogModel.CaseSensitiveEnabled)
+                                property = property.ToLower();
+                        
+                            if (_logProfile.SecurePasswordLogModel.PasswordFieldNames.Contains(property))
+                            {
+                                dynamicRequestObject.Value = "***";
+                            }
                         }
-                    }
 
-                    requestBody = JsonConvert.SerializeObject(dynamicRequestObjects);
+                        requestBody = JsonConvert.SerializeObject(dynamicRequestObjects);
+                    }
                 }
 
                 logObject.RequestBody = requestBody;
