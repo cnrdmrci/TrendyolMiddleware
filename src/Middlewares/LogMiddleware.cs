@@ -20,6 +20,9 @@ namespace Trendyol.TyMiddleware.Middlewares
 
         public Task ResponseHandler(BaseMiddlewareModel baseMiddlewareModel)
         {
+            if (_logService.IgnoreLog(baseMiddlewareModel)) 
+                return Task.CompletedTask;
+            
             _logService.Log(baseMiddlewareModel);
 
             return Task.CompletedTask;
