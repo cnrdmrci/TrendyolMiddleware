@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Dynamic;
+using Newtonsoft.Json;
 using Trendyol.TyMiddleware.Extensions;
 using Trendyol.TyMiddleware.Services.LogServices.LogMiddlewareFilter;
 
@@ -108,10 +109,32 @@ namespace Trendyol.TyMiddleware.Services.LogServices.LogProvider
         private void FillAuditLogRequestBody(dynamic logObject)
         {
             if (_apiFilter?.ApiFilterFieldDetail?.RequestBodyIgnore ?? false) return;
-            
+
+            var requestBody = _baseMiddlewareModel.RequestBody;
+
             if (_logProfile.RequestBodyLogEnabled)
             {
-                logObject.RequestBody =  _baseMiddlewareModel.RequestBody;
+
+                if (_logProfile.SecurePasswordLogModel.SecurePasswordLogEnabled)
+                {
+                    dynamic dynamicRequestObjects = JsonConvert.DeserializeObject(_baseMiddlewareModel.RequestBody);
+                    foreach (var dynamicRequestObject in dynamicRequestObjects)
+                    {
+                        var property = dynamicRequestObject.Path;
+                        
+                        if (!_logProfile.SecurePasswordLogModel.CaseSensitiveEnabled)
+                            property = property.ToLower();
+                        
+                        if (_logProfile.SecurePasswordLogModel.PasswordFieldNames.Contains(property))
+                        {
+                            dynamicRequestObject.Value = "***";
+                        }
+                    }
+
+                    requestBody = JsonConvert.SerializeObject(dynamicRequestObjects);
+                }
+
+                logObject.RequestBody = requestBody;
             }
         }
 
