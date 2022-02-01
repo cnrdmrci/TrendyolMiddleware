@@ -5,7 +5,7 @@ namespace SampleApi;
 
 public class LogConfigProfile : LogMiddlewareProfile
 {
-    public LogConfigProfile(ILogger<LogConfigProfile> logger, ITestService testService)
+    public LogConfigProfile(ITestService testService)
     {
         LogType = LogType.Console;
             
@@ -19,6 +19,16 @@ public class LogConfigProfile : LogMiddlewareProfile
                     Controller = "WeatherForecast",
                     Method = "GET"
                 }
+            }
+        };
+
+        SecurePasswordLogModel = new SecurePasswordLogModel()
+        {
+            SecurePasswordLogEnabled = true,
+            CaseSensitiveEnabled = false,
+            PasswordFieldNames = new List<string>()
+            {
+                "password"
             }
         };
             

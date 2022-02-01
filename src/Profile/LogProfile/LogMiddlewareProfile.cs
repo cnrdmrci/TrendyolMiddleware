@@ -15,6 +15,7 @@ namespace Trendyol.TyMiddleware
         public bool StatusCodeLogEnabled { get; set; }
         public bool ProcessingTimeLogEnabled { get; set; }
         public ApiFilterModel ApiFilterModel { get; set; }
+        public SecurePasswordLogModel SecurePasswordLogModel { get; set; }
         public LogType LogType { get; set; }
         private readonly List<CustomField> _customFields;
         private readonly List<HeaderField> _headerFields;
@@ -29,6 +30,7 @@ namespace Trendyol.TyMiddleware
             ActionLogEnabled = true;
             StatusCodeLogEnabled = true;
             ProcessingTimeLogEnabled = true;
+            SecurePasswordLogModel = new SecurePasswordLogModel();
             ApiFilterModel = new ApiFilterModel();
             _customFields = new List<CustomField>();
             _headerFields = new List<HeaderField>();

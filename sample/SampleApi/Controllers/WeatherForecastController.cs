@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SampleApi.Model;
 
 namespace SampleApi.Controllers;
 
@@ -32,6 +33,18 @@ public class WeatherForecastController : ControllerBase
     
     [HttpGet,Route("v2/Get")]
     public IEnumerable<WeatherForecast> GetVersion2()
+    {
+        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+    }
+    
+    [HttpPost,Route("v2/Post")]
+    public IEnumerable<WeatherForecast> Post(WeatherForecastRequest request)
     {
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
