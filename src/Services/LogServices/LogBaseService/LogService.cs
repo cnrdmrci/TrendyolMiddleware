@@ -25,5 +25,10 @@ namespace Trendyol.TyMiddleware.Services.LogServices.LogBaseService
             
             _logStrategy.SaveLog(logObject);
         }
+
+        public bool IgnoreLog(BaseMiddlewareModel baseMiddlewareModel)
+        {
+            return baseMiddlewareModel.FullAction?.ToLower()?.Contains("swagger") ?? false;
+        }
     }
 }

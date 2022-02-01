@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>net6.0;net5.0;netcoreapp3.1;netcoreapp2.2;netcoreapp2.0</TargetFrameworks>
         <PackageId>Trendyol.TyMiddleware</PackageId>
-        <Version>1.0.1</Version>
+        <Version>1.2.0</Version>
         <RootNamespace>Trendyol.TyMiddleware</RootNamespace>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>Caner Demirci,Mennan Sevim</Authors>
@@ -13,28 +13,29 @@
         <RepositoryUrl>https://github.com/cnrdmrci/TrendyolMiddleware</RepositoryUrl>
     </PropertyGroup>
 
-
     <ItemGroup>
-      
-      <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework) == 'net6.0'">
         <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework) == 'net5.0'">
         <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework) == 'netcoreapp3.1'">
         <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.22" />
+        <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
     </ItemGroup>
 
     <ItemGroup Condition="$(TargetFramework) == 'netcoreapp2.2'">

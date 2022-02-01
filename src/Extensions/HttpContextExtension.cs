@@ -6,6 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
+#if NETCOREAPP3_1_OR_GREATER
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+#endif
+
 namespace Trendyol.TyMiddleware.Extensions
 {
     public static class HttpContextExtension
@@ -56,22 +61,28 @@ namespace Trendyol.TyMiddleware.Extensions
 
         public static string GetControllerName(this HttpContext httpContext)
         {
-            List<string> splitPath = GetSplitPath(httpContext);
-            return splitPath?.FirstOrDefault();
+#if NETCOREAPP3_1_OR_GREATER
+            var controllerActionDescriptor = httpContext
+                .GetEndpoint()?
+                .Metadata
+                .GetMetadata<ControllerActionDescriptor>();
+            return controllerActionDescriptor?.ControllerName ?? string.Empty;
+#else
+            return "Not supported below .net core 3.1 for ControllerName";
+#endif
         }
 
         public static string GetActionName(this HttpContext httpContext)
         {
-            List<string> splitPath = GetSplitPath(httpContext);
-            if (splitPath.AnyNullSafe())
-            {
-                if (splitPath.Count >= 2)
-                {
-                    return splitPath[1];
-                }
-            }
-
-            return string.Empty;
+#if NETCOREAPP3_1_OR_GREATER
+            var controllerActionDescriptor = httpContext
+                .GetEndpoint()?
+                .Metadata
+                .GetMetadata<ControllerActionDescriptor>();
+            return controllerActionDescriptor?.ActionName ?? string.Empty;
+#else
+            return "Not supported below .net core 3.1 for ActionName";
+#endif
         }
 
         public static string GetFullAction(this HttpContext httpContext)
@@ -88,17 +99,6 @@ namespace Trendyol.TyMiddleware.Extensions
         public static int GetResponseStatusCode(this HttpContext httpContext)
         {
             return httpContext.Response.StatusCode;
-        }
-
-        private static List<string> GetSplitPath(HttpContext httpContext)
-        {
-            var splitPath = httpContext.Request.Path.Value?.Split('/')?.ToList();
-            if (splitPath.AnyNullSafe())
-            {
-                return splitPath?.Skip(1).ToList();
-            }
-
-            return null;
         }
     }
 }
