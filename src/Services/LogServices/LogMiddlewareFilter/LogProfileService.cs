@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Trendyol.TyMiddleware.Configuration;
 using Trendyol.TyMiddleware.Extensions;
 
@@ -22,35 +21,34 @@ namespace Trendyol.TyMiddleware.Services.LogServices.LogMiddlewareFilter
             List<ApiFilter> apiFilters = _logProfile?.ApiFilterModel?.ApiFilters;
             if (apiFilters.IsNullOrEmpty()) return null;
 
-            FilterController(apiFilters, baseMiddlewareModel);
-            FilterAction(apiFilters, baseMiddlewareModel);
-            FilterHttpMethod(apiFilters, baseMiddlewareModel);
-            
-            return apiFilters?.FirstOrDefault();
+            foreach (var apiFilter in apiFilters)
+            {
+                bool isApiFilterSuccess = true;
+                
+                isApiFilterSuccess = ApiFilterControl(isApiFilterSuccess, apiFilter.Controller,baseMiddlewareModel.Controller);
+                isApiFilterSuccess = ApiFilterControl(isApiFilterSuccess, apiFilter.Action,baseMiddlewareModel.Action);
+                isApiFilterSuccess = ApiFilterControl(isApiFilterSuccess, apiFilter.HttpMethod,baseMiddlewareModel.HttpMethod);
+
+                if (isApiFilterSuccess)
+                    return apiFilter;
+            }
+
+            return null;
         }
 
-        private void FilterController(List<ApiFilter> apiFilters,BaseMiddlewareModel baseMiddlewareModel)
+        private bool ApiFilterControl(bool isApiFilterSuccess, string filterModelField, string middlewareModelField)
         {
-            if (apiFilters.AnyNullSafe() && !string.IsNullOrWhiteSpace(baseMiddlewareModel.Controller))
+            var isApiFilterSuccessLocal = isApiFilterSuccess;
+            
+            if (isApiFilterSuccessLocal && !string.IsNullOrWhiteSpace(filterModelField))
             {
-                apiFilters = apiFilters?.Where(x => x.Controller == baseMiddlewareModel.Controller).ToList();
+                if (filterModelField != middlewareModelField)
+                {
+                    isApiFilterSuccessLocal = false;
+                }
             }
-        }
-        
-        private void FilterAction(List<ApiFilter> apiFilters,BaseMiddlewareModel baseMiddlewareModel)
-        {
-            if (apiFilters.AnyNullSafe() && !string.IsNullOrWhiteSpace(baseMiddlewareModel.Action))
-            {
-                apiFilters = apiFilters?.Where(x => x.Action == baseMiddlewareModel.Action).ToList();
-            }
-        }
-        
-        private void FilterHttpMethod(List<ApiFilter> apiFilters,BaseMiddlewareModel baseMiddlewareModel)
-        {
-            if (apiFilters.AnyNullSafe() && !string.IsNullOrWhiteSpace(baseMiddlewareModel.HttpMethod))
-            {
-                apiFilters = apiFilters?.Where(x => x.Method == baseMiddlewareModel.HttpMethod).ToList();
-            }
+
+            return isApiFilterSuccessLocal;
         }
 
         public bool IsLoggingIgnore(BaseMiddlewareModel baseMiddlewareModel)
