@@ -49,7 +49,7 @@ namespace Trendyol.TyMiddleware.Core.MiddlewareCoreProcessService
         public Task ExceptionHandler(HttpContext httpContext, Exception exception)
         {
             Console.WriteLine(exception.Message);
-            throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
         
         private async Task InitializeBaseMiddlewareModelAsync(HttpContext httpContext)

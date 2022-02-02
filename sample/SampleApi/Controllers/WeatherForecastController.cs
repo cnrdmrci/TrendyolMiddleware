@@ -54,4 +54,13 @@ public class WeatherForecastController : ControllerBase
             })
             .ToArray();
     }
+    
+    [HttpGet,Route("exception")]
+    public IActionResult GetException()
+    {
+        int numberZero = 0;
+        int number = 5;
+        int result = number / numberZero;
+        return Ok();
+    }
 }

@@ -8,7 +8,7 @@ public class LogConfigProfile : LogMiddlewareProfile
     public LogConfigProfile(ITestService testService)
     {
         LogType = LogType.Console;
-            
+
         ApiFilterModel = new ApiFilterModel()
         {
             ApiFilterType = ApiFilterType.Include,
@@ -17,7 +17,17 @@ public class LogConfigProfile : LogMiddlewareProfile
                 new ApiFilter
                 {
                     Controller = "WeatherForecast",
-                    Method = "GET"
+                    HttpMethod = "POST",
+                    ApiFilterFieldDetail = new ApiFilterFieldDetail()
+                    {
+                        ResponseBodyIgnore = true
+                    }
+                },
+                new ApiFilter
+                {
+                    Controller = "WeatherForecast",
+                    HttpMethod = "GET",
+                    Action = "GetVersion2"
                 }
             }
         };
