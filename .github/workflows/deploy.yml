@@ -32,9 +32,13 @@ jobs:
       with:
         dotnet-version: 6.0.x
         
+    - name: Install dependencies
+      run: dotnet restore
+        
     - name: Build solution
       run: |  
           cd src
+          dotnet publish -c release -f net5.0
           dotnet publish -c release -f net6.0
         
     - name: Creating nuget package
