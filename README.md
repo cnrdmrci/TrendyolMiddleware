@@ -1,3 +1,5 @@
+[![.NET](https://github.com/cnrdmrci/TrendyolMiddleware/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/cnrdmrci/TrendyolMiddleware/actions/workflows/deploy.yml)
+
 # TyMiddleware
 
 
