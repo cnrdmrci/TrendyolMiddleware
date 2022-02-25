@@ -10,41 +10,13 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Setup .NET Core 2.0
-      uses: actions/setup-dotnet@v1	
-      with:	
-        dotnet-version: 2.0.x	
-    - name: Setup .NET Core 2.2	
-      uses: actions/setup-dotnet@v1	
-      with:	
-        dotnet-version: 2.2.x	
-    - name: Setup .NET Core 3.1	
-      uses: actions/setup-dotnet@v1	
-      with:	
-        dotnet-version: 3.1.x
-    - name: Setup .NET Core 5.0
-      uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
-    - name: Setup .NET Core 6.0
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-        
-    - name: Install dependencies
-      run: dotnet restore
+        dotnet-version: '6.0.x'
+        include-prerelease: true
         
     - name: Build solution
-      run: |  
-          dotnet publish ./src -c release -f netcoreapp3.1
-          dotnet publish ./src -c release -f netcoreapp2.2
-          dotnet publish ./src -c release -f netcoreapp2.0
-          dotnet publish ./src -c release -f net5.0
-          dotnet publish ./src -c release -f net6.0
-        
-    - name: Creating nuget package
-      run: dotnet pack --configuration Release
+      run: dotnet build -c release
       
     - name: Push nuget
-      run: dotnet nuget push ./bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./src/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
